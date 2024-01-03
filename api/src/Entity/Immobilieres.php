@@ -1,4 +1,8 @@
 <?php
+/**  Generer la table dans la base de donnees 
+ *   > php bin/console make:migration
+ *   > php bin/console doctrine:migrations:generate
+ * */
 
 namespace App\Entity;
 
@@ -27,6 +31,16 @@ class Immobilieres
 
     #[ORM\Column(type: 'integer')]
     private int $squareMeters;
+
+    #[ORM\Column(type: 'string')]
+    private string $code_type_local;
+
+    public function __construct( ) {
+        $this->dateMutations = new \DateTime();
+        $this->code_type_local = 'unknown';
+        $this->price = 0.0;
+        $this->squareMeters = 0;
+    }
 
     public function getId(): ?int
     {
@@ -92,5 +106,29 @@ class Immobilieres
 
         return $this;
     }
+
+    public function getCodeTypeLocal(): ?string
+    {
+        return $this->code_type_local;
+    }
+
+    public function setCodeTypeLocal(string $code_type_local): self
+    {
+        $this->code_type_local = $code_type_local;
+
+        return $this;
+    }
+
+    public function toString(): string
+    {
+        return 'Immobilier' . PHP_EOL . 
+        'Prix : ' . $this->getPrice() . PHP_EOL .
+        'Date mutation : ' . $this->getDateMutations()->format('Y-m-d H:i:s') . PHP_EOL .
+        'Departement : ' . $this->getCodeDepartment() . PHP_EOL .
+        'Region : ' . $this->getRegion() . PHP_EOL .
+        'Mettre carrés : ' . $this->getSquareMeters() . PHP_EOL .
+        'Type local : ' . $this->getCodeTypeLocal() . PHP_EOL;
+    }
+
 
 }
