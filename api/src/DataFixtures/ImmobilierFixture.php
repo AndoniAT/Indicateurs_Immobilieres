@@ -18,9 +18,9 @@
     {
         public function load(ObjectManager $manager): void
         {
-            $filenames = [ '2018-s2', '2019', '2020', '2021', '2022' ];
+            $filenames = [ '2018-s2', '2019', '2020', '2021', '2022','2023' ];
 
-            for ( $i=0; $i < 5; $i++ ) { 
+            for ( $i=0; $i < 6; $i++ ) { 
                 $fileContent = file_get_contents(__DIR__ . '/../../DONNES_DATABASE/valeursfoncieres-' . $filenames[$i] . '.txt' );
                 $lines = explode(PHP_EOL, $fileContent);
                 
