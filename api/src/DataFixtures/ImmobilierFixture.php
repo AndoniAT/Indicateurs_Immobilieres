@@ -47,7 +47,7 @@
                     $save &= is_float($price);
                     
                     $meters = (int)$data[42];
-                    $save &= is_int($meters);
+                    $save &= is_int($meters) && $meters > 0;
                     
                     $type_local = $data[36];
                     $save &= ( mb_strlen($type_local) > 0 );
