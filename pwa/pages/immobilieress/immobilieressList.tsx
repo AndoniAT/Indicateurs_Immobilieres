@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const PageWithNavbar = () => {
     return (
       <>
-        <Navbar /> {/* Ajoutez le composant Navbar ici */}
+        <Navbar />
         <PageList />
       </>
     );

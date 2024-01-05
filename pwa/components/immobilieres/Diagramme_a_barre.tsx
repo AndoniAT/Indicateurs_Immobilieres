@@ -11,9 +11,7 @@ export const DiagrammeABarre: FunctionComponent<Props> = ({
 }) => {
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl mb-2">Diagramme à barre</h1>
-      </div>
+        <h1 className="text-3xl text-center mb-4">Diagramme à barre</h1>
     </div>
   );
 };

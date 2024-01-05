@@ -20,7 +20,7 @@ const Navbar = () => {
             Ventes Moyennes
             </span>
           </Link>
-          <Link href="/immobilieress" passHref>
+          <Link href="/immobilieress/diagramme_a_barre" passHref>
             <span className="cursor-pointer text-white font-bold text-lg hover:text-cyan-300 transition duration-300 ease-in-out">
             Mutations par Période
 
