@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import { fetch, FetchError, FetchResponse } from "../../utils/dataAccess";
 import { Immobilieres } from "../../types/Immobilieres";
 
+
 interface Props {
   immobilieres?: Immobilieres;
 }
