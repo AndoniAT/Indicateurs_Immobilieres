@@ -20,6 +20,12 @@ export const List: FunctionComponent<Props> = ({ immobilieress }) => (
         Graphiques
       </Link>
       <Link
+        href="/immobilieress/diagramme_a_barre"
+        className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded mr-2"
+      >
+        Diagramme à barre
+      </Link>
+      <Link
         href="/immobilieress/create"
         className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
       >
