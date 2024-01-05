@@ -1,22 +1,19 @@
-import { GetStaticProps } from "next";
-import { dehydrate, QueryClient } from "react-query";
+import { NextComponentType, NextPageContext } from "next";
+import Head from "next/head";
+import Link from "next/link";
+import Navbar from "../../components/immobilieres/Navbar"; // Assurez-vous que le chemin d'accès est correct
 
-import {
-  PageList,
-  getImmobilieress,
-  getImmobilieressPath,
-} from "../../components/immobilieres/PageList";
+const Welcome: NextComponentType<NextPageContext> = () => (
+  <div>
+    <Navbar /> 
+    <div>
+      <Head>
+        <title>WELCOME</title>
+      </Head>
+      <div>WELCOME</div>
+      
+    </div>
+  </div>
+);
 
-export const getStaticProps: GetStaticProps = async () => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(getImmobilieressPath(), getImmobilieress());
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: 1,
-  };
-};
-
-export default PageList;
+export default Welcome;
