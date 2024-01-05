@@ -14,6 +14,12 @@ export const List: FunctionComponent<Props> = ({ immobilieress }) => (
     <div className="flex justify-between items-center">
       <h1 className="text-3xl mb-2">Immobilieres List</h1>
       <Link
+        href="/immobilieress/graphiques"
+        className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
+      >
+        Graphiques
+      </Link>
+      <Link
         href="/immobilieress/create"
         className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
       >
