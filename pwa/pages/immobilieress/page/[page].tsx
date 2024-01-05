@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient } from "react-query";
+import Navbar from "../../../components/immobilieres/Navbar";
 
 import {
   PageList,
@@ -41,4 +42,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default PageList;
+const ImmobilieressPage = ({ immobilieress }) => {
+  return (
+    <>
+      <Navbar /> 
+      <PageList immobilieress={immobilieress} />
+    </>
+  );
+};
+
+export default ImmobilieressPage;

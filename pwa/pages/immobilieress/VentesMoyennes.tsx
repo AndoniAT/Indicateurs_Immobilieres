@@ -1,18 +1,19 @@
 import { NextComponentType, NextPageContext } from "next";
 import Head from "next/head";
-
-import { Form } from "../../components/immobilieres/Form";
+import { VentesMoyennes } from "../../components/immobilieres/VentesMoyennes"
 import Navbar from "../../components/immobilieres/Navbar"
-
 const Page: NextComponentType<NextPageContext> = () => (
   <div>
     <div>
       <Head>
-        <title>Create Immobilieres</title>
+        <title>VentesMoyennes</title>
       </Head>
+      <Navbar /> 
+      
+       <VentesMoyennes immobilieress={[]}>
+
+      </VentesMoyennes>
     </div>
-    <Navbar/>
-    <Form />
   </div>
 );
 
