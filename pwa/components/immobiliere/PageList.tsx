@@ -6,26 +6,26 @@ import { useQuery } from "react-query";
 import Pagination from "../common/Pagination";
 import { List } from "./List";
 import { PagedCollection } from "../../types/collection";
-import { Immobilieres } from "../../types/Immobilieres";
+import { Immobiliere } from "../../types/Immobiliere";
 import { fetch, FetchResponse, parsePage } from "../../utils/dataAccess";
 import { useMercure } from "../../utils/mercure";
 
-export const getImmobilieressPath = (page?: string | string[] | undefined) =>
-  `/immobilieress${typeof page === "string" ? `?page=${page}` : ""}`;
-export const getImmobilieress =
+export const getImmobilieresPath = (page?: string | string[] | undefined) =>
+  `/immobilieres${typeof page === "string" ? `?page=${page}` : ""}`;
+export const getImmobilieres =
   (page?: string | string[] | undefined) => async () =>
-    await fetch<PagedCollection<Immobilieres>>(getImmobilieressPath(page));
+    await fetch<PagedCollection<Immobiliere>>(getImmobilieresPath(page));
 const getPagePath = (path: string) =>
-  `/immobilieress/page/${parsePage("immobilieress", path)}`;
+  `/immobilieres/page/${parsePage("immobilieres", path)}`;
 
 export const PageList: NextComponentType<NextPageContext> = () => {
   const {
     query: { page },
   } = useRouter();
-  const { data: { data: immobilieress, hubURL } = { hubURL: null } } = useQuery<
-    FetchResponse<PagedCollection<Immobilieres>> | undefined
-  >(getImmobilieressPath(page), getImmobilieress(page));
-  const collection = useMercure(immobilieress, hubURL);
+  const { data: { data: immobilieres, hubURL } = { hubURL: null } } = useQuery<
+    FetchResponse<PagedCollection<Immobiliere>> | undefined
+  >(getImmobilieresPath(page), getImmobilieres(page));
+  const collection = useMercure(immobilieres, hubURL);
 
   if (!collection || !collection["hydra:member"]) return null;
 
@@ -36,7 +36,7 @@ export const PageList: NextComponentType<NextPageContext> = () => {
           <title>Immobilieres List</title>
         </Head>
       </div>
-      <List immobilieress={collection["hydra:member"]} />
+      <List immobilieres={collection["hydra:member"]} />
       <Pagination collection={collection} getPagePath={getPagePath} />
     </div>
   );

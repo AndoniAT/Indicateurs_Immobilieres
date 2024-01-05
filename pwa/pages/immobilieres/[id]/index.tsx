@@ -9,25 +9,30 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient, useQuery } from "react-query";
 
-import { Form } from "../../../components/immobilieres/Form";
+import { Show } from "../../../components/immobiliere/Show";
 import { PagedCollection } from "../../../types/collection";
-import { Immobilieres } from "../../../types/Immobilieres";
+import { Immobiliere } from "../../../types/Immobiliere";
 import { fetch, FetchResponse, getItemPaths } from "../../../utils/dataAccess";
+import { useMercure } from "../../../utils/mercure";
 
-const getImmobilieres = async (id: string | string[] | undefined) =>
+const getImmobiliere = async (id: string | string[] | undefined) =>
   id
-    ? await fetch<Immobilieres>(`/immobilieress/${id}`)
+    ? await fetch<Immobiliere>(`/immobilieres/${id}`)
     : Promise.resolve(undefined);
 
 const Page: NextComponentType<NextPageContext> = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: { data: immobilieres } = {} } = useQuery<
-    FetchResponse<Immobilieres> | undefined
-  >(["immobilieres", id], () => getImmobilieres(id));
+  const {
+    data: { data: immobiliere, hubURL, text } = { hubURL: null, text: "" },
+  } = useQuery<FetchResponse<Immobiliere> | undefined>(
+    ["immobiliere", id],
+    () => getImmobiliere(id)
+  );
+  const immobiliereData = useMercure(immobiliere, hubURL);
 
-  if (!immobilieres) {
+  if (!immobiliereData) {
     return <DefaultErrorPage statusCode={404} />;
   }
 
@@ -35,12 +40,10 @@ const Page: NextComponentType<NextPageContext> = () => {
     <div>
       <div>
         <Head>
-          <title>
-            {immobilieres && `Edit Immobilieres ${immobilieres["@id"]}`}
-          </title>
+          <title>{`Show Immobiliere ${immobiliereData["@id"]}`}</title>
         </Head>
       </div>
-      <Form immobilieres={immobilieres} />
+      <Show immobiliere={immobiliereData} text={text} />
     </div>
   );
 };
@@ -50,8 +53,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   if (!id) throw new Error("id not in query param");
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(["immobilieres", id], () =>
-    getImmobilieres(id)
+  await queryClient.prefetchQuery(["immobiliere", id], () =>
+    getImmobiliere(id)
   );
 
   return {
@@ -63,11 +66,11 @@ export const getStaticProps: GetStaticProps = async ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch<PagedCollection<Immobilieres>>("/immobilieress");
+  const response = await fetch<PagedCollection<Immobiliere>>("/immobilieres");
   const paths = await getItemPaths(
     response,
-    "immobilieress",
-    "/immobilieress/[id]/edit"
+    "immobilieres",
+    "/immobilieres/[id]"
   );
 
   return {

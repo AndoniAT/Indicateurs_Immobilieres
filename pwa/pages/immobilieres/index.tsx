@@ -1,7 +1,7 @@
 import { NextComponentType, NextPageContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import Navbar from "../../components/immobilieres/Navbar"; // Assurez-vous que le chemin d'accès est correct
+import Navbar from "../../components/immobiliere/Navbar"; // Assurez-vous que le chemin d'accès est correct
 
 const Welcome: NextComponentType<NextPageContext> = () => (
   <div>

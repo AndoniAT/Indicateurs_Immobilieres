@@ -1,16 +1,16 @@
 import { GetStaticProps } from "next";
 import { dehydrate, QueryClient } from "react-query";
-import Navbar from "../../components/immobilieres/Navbar";
+import Navbar from "../../components/immobiliere/Navbar";
 
 import {
   PageList,
-  getImmobilieress,
-  getImmobilieressPath,
-} from "../../components/immobilieres/PageList";
+  getImmobilieres,
+  getImmobilieresPath,
+} from "../../components/immobiliere/PageList";
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(getImmobilieressPath(), getImmobilieress());
+  await queryClient.prefetchQuery(getImmobilieresPath(), getImmobilieres());
 
   return {
     props: {

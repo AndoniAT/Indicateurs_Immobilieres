@@ -3,18 +3,18 @@ import Link from "next/link";
 
 import ReferenceLinks from "../common/ReferenceLinks";
 import { getItemPath } from "../../utils/dataAccess";
-import { Immobilieres } from "../../types/Immobilieres";
+import { Immobiliere } from "../../types/Immobiliere";
 
 interface Props {
-  immobilieress: Immobilieres[];
+  immobilieres: Immobiliere[];
 }
 
-export const List: FunctionComponent<Props> = ({ immobilieress }) => (
+export const List: FunctionComponent<Props> = ({ immobilieres }) => (
   <div className="p-4">
     <div className="flex justify-between items-center">
       <h1 className="text-3xl mb-2">Immobilieres List</h1>
       <Link
-        href="/immobilieress/create"
+        href="/immobilieres/create"
         className="bg-cyan-500 hover:bg-cyan-700 text-white text-sm font-bold py-2 px-4 rounded"
       >
         Create
@@ -38,35 +38,35 @@ export const List: FunctionComponent<Props> = ({ immobilieress }) => (
         </tr>
       </thead>
       <tbody className="text-sm divide-y divide-gray-200">
-        {immobilieress &&
-          immobilieress.length !== 0 &&
-          immobilieress.map(
-            (immobilieres) =>
-              immobilieres["@id"] && (
-                <tr className="py-2" key={immobilieres["@id"]}>
+        {immobilieres &&
+          immobilieres.length !== 0 &&
+          immobilieres.map(
+            (immobiliere) =>
+              immobiliere["@id"] && (
+                <tr className="py-2" key={immobiliere["@id"]}>
                   <th scope="row">
                     <ReferenceLinks
                       items={{
                         href: getItemPath(
-                          immobilieres["@id"],
-                          "/immobilieress/[id]"
+                          immobiliere["@id"],
+                          "/immobilieres/[id]"
                         ),
-                        name: immobilieres["@id"],
+                        name: immobiliere["@id"],
                       }}
                     />
                   </th>
-                  <td>{immobilieres["dateMutations"]?.toLocaleString()}</td>
-                  <td>{immobilieres["price"]}</td>
-                  <td>{immobilieres["codeDepartment"]}</td>
-                  <td>{immobilieres["region"]}</td>
-                  <td>{immobilieres["squareMeters"]}</td>
-                  <td>{immobilieres["code_type_local"]}</td>
-                  <td>{immobilieres["codeTypeLocal"]}</td>
+                  <td>{immobiliere["dateMutations"]?.toLocaleString()}</td>
+                  <td>{immobiliere["price"]}</td>
+                  <td>{immobiliere["codeDepartment"]}</td>
+                  <td>{immobiliere["region"]}</td>
+                  <td>{immobiliere["squareMeters"]}</td>
+                  <td>{immobiliere["code_type_local"]}</td>
+                  <td>{immobiliere["codeTypeLocal"]}</td>
                   <td className="w-8">
                     <Link
                       href={getItemPath(
-                        immobilieres["@id"],
-                        "/immobilieress/[id]"
+                        immobiliere["@id"],
+                        "/immobilieres/[id]"
                       )}
                       className="text-cyan-500"
                     >
@@ -89,8 +89,8 @@ export const List: FunctionComponent<Props> = ({ immobilieress }) => (
                   <td className="w-8">
                     <Link
                       href={getItemPath(
-                        immobilieres["@id"],
-                        "/immobilieress/[id]/edit"
+                        immobiliere["@id"],
+                        "/immobilieres/[id]/edit"
                       )}
                       className="text-cyan-500"
                     >

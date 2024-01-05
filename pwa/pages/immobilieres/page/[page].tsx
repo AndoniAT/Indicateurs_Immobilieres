@@ -1,14 +1,14 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { dehydrate, QueryClient } from "react-query";
-import Navbar from "../../../components/immobilieres/Navbar";
+import Navbar from "../../../components/immobiliere/Navbar";
 
 import {
   PageList,
-  getImmobilieress,
-  getImmobilieressPath,
-} from "../../../components/immobilieres/PageList";
+  getImmobilieres,
+  getImmobilieresPath,
+} from "../../../components/immobiliere/PageList";
 import { PagedCollection } from "../../../types/collection";
-import { Immobilieres } from "../../../types/Immobilieres";
+import { Immobiliere } from "../../../types/Immobiliere";
 import { fetch, getCollectionPaths } from "../../../utils/dataAccess";
 
 export const getStaticProps: GetStaticProps = async ({
@@ -16,8 +16,8 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(
-    getImmobilieressPath(page),
-    getImmobilieress(page)
+    getImmobilieresPath(page),
+    getImmobilieres(page)
   );
 
   return {
@@ -29,11 +29,11 @@ export const getStaticProps: GetStaticProps = async ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch<PagedCollection<Immobilieres>>("/immobilieress");
+  const response = await fetch<PagedCollection<Immobiliere>>("/immobilieres");
   const paths = await getCollectionPaths(
     response,
-    "immobilieress",
-    "/immobilieress/page/[page]"
+    "immobilieres",
+    "/immobilieres/page/[page]"
   );
 
   return {
@@ -42,13 +42,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-const ImmobilieressPage = ({ immobilieress }) => {
+const ImmobilieresPage = ({ immobilieres }) => {
   return (
     <>
       <Navbar /> 
-      <PageList immobilieress={immobilieress} />
+      <PageList immobilieres={immobilieres} />
     </>
   );
 };
 
-export default ImmobilieressPage;
+export default ImmobilieresPage;

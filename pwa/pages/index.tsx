@@ -106,7 +106,7 @@ const Welcome = () => (
               title="Mercure debugger"
               url="/.well-known/mercure/ui/"
             />
-            <Card image={adminPicture} title="Client" url="/immobilieress" />
+            <Card image={adminPicture} title="Client" url="/immobilieres" />
           </div>
         </div>
       </div>

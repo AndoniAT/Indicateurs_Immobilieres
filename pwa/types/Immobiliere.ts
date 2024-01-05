@@ -1,6 +1,6 @@
 import { Item } from "./item";
 
-export class Immobilieres implements Item {
+export class Immobiliere implements Item {
   public "@id"?: string;
 
   constructor(

@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
-import { Immobilieres } from "../../types/Immobilieres";
+import { Immobiliere } from "../../types/Immobiliere";
 import React from "react";
 
 interface Props {
-  immobilieress: Immobilieres[];
+  immobilieres: Immobiliere[];
 }
 
 export const DiagrammeABarre: FunctionComponent<Props> = ({
-  immobilieress,
+  immobilieres,
 }) => {
   return (
     <div className="p-4">

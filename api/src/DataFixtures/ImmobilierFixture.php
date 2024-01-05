@@ -10,7 +10,7 @@
      *  > php bin/console doctrine:fixtures:load
      */
 
-    use App\Entity\Immobilieres;
+    use App\Entity\Immobiliere;
     use Doctrine\Bundle\FixturesBundle\Fixture;
     use Doctrine\Persistence\ObjectManager;
 
@@ -59,7 +59,7 @@
                     $save &= ( mb_strlen($region) > 0 );
     
                     if( $save ) {
-                        $immobilier = new Immobilieres();                
+                        $immobilier = new Immobiliere();                
                         $immobilier
                         ->setPrice($price)
                         ->setDateMutations($dateTimeObject)

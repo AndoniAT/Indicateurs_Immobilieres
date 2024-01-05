@@ -1,10 +1,10 @@
 import { FunctionComponent } from "react";
-import { Immobilieres } from "../../types/Immobilieres";
+import { Immobiliere } from "../../types/Immobiliere";
 import * as d3 from "d3";
 import React, { useRef, useEffect } from 'react';
 
 interface Props {
-  immobilieress: Immobilieres[];
+  immobilieres: Immobiliere[];
 }
 
 interface IData {
@@ -86,7 +86,7 @@ const Graph: React.FC = () => {
 );
 };
 
-export const VentesMoyennes: FunctionComponent<Props> = ({ immobilieress }) => {
+export const VentesMoyennes: FunctionComponent<Props> = ({ immobilieres }) => {
 
   return (
     <div className="p-4">

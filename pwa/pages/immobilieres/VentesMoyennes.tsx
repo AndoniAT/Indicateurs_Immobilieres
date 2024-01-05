@@ -1,7 +1,7 @@
 import { NextComponentType, NextPageContext } from "next";
 import Head from "next/head";
-import { VentesMoyennes } from "../../components/immobilieres/VentesMoyennes"
-import Navbar from "../../components/immobilieres/Navbar"
+import { VentesMoyennes } from "../../components/immobiliere/VentesMoyennes"
+import Navbar from "../../components/immobiliere/Navbar"
 const Page: NextComponentType<NextPageContext> = () => (
   <div>
     <div>
@@ -10,7 +10,7 @@ const Page: NextComponentType<NextPageContext> = () => (
       </Head>
       <Navbar /> 
       
-       <VentesMoyennes immobilieress={[]}>
+       <VentesMoyennes immobilieres={[]}>
 
       </VentesMoyennes>
     </div>

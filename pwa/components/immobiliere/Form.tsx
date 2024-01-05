@@ -5,47 +5,46 @@ import { ErrorMessage, Formik } from "formik";
 import { useMutation } from "react-query";
 
 import { fetch, FetchError, FetchResponse } from "../../utils/dataAccess";
-import { Immobilieres } from "../../types/Immobilieres";
-
+import { Immobiliere } from "../../types/Immobiliere";
 
 interface Props {
-  immobilieres?: Immobilieres;
+  immobiliere?: Immobiliere;
 }
 
 interface SaveParams {
-  values: Immobilieres;
+  values: Immobiliere;
 }
 
 interface DeleteParams {
   id: string;
 }
 
-const saveImmobilieres = async ({ values }: SaveParams) =>
-  await fetch<Immobilieres>(!values["@id"] ? "/immobilieress" : values["@id"], {
+const saveImmobiliere = async ({ values }: SaveParams) =>
+  await fetch<Immobiliere>(!values["@id"] ? "/immobilieres" : values["@id"], {
     method: !values["@id"] ? "POST" : "PUT",
     body: JSON.stringify(values),
   });
 
-const deleteImmobilieres = async (id: string) =>
-  await fetch<Immobilieres>(id, { method: "DELETE" });
+const deleteImmobiliere = async (id: string) =>
+  await fetch<Immobiliere>(id, { method: "DELETE" });
 
-export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
+export const Form: FunctionComponent<Props> = ({ immobiliere }) => {
   const [, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const saveMutation = useMutation<
-    FetchResponse<Immobilieres> | undefined,
+    FetchResponse<Immobiliere> | undefined,
     Error | FetchError,
     SaveParams
-  >((saveParams) => saveImmobilieres(saveParams));
+  >((saveParams) => saveImmobiliere(saveParams));
 
   const deleteMutation = useMutation<
-    FetchResponse<Immobilieres> | undefined,
+    FetchResponse<Immobiliere> | undefined,
     Error | FetchError,
     DeleteParams
-  >(({ id }) => deleteImmobilieres(id), {
+  >(({ id }) => deleteImmobiliere(id), {
     onSuccess: () => {
-      router.push("/immobilieress");
+      router.push("/immobilieres");
     },
     onError: (error) => {
       setError(`Error when deleting the resource: ${error}`);
@@ -54,31 +53,31 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
   });
 
   const handleDelete = () => {
-    if (!immobilieres || !immobilieres["@id"]) return;
+    if (!immobiliere || !immobiliere["@id"]) return;
     if (!window.confirm("Are you sure you want to delete this item?")) return;
-    deleteMutation.mutate({ id: immobilieres["@id"] });
+    deleteMutation.mutate({ id: immobiliere["@id"] });
   };
 
   return (
     <div className="container mx-auto px-4 max-w-2xl mt-4">
       <Link
-        href="/immobilieress"
+        href="/immobilieres"
         className="text-sm text-cyan-500 font-bold hover:text-cyan-700"
       >
         {`< Back to list`}
       </Link>
       <h1 className="text-3xl my-2">
-        {immobilieres
-          ? `Edit Immobilieres ${immobilieres["@id"]}`
-          : `Create Immobilieres`}
+        {immobiliere
+          ? `Edit Immobiliere ${immobiliere["@id"]}`
+          : `Create Immobiliere`}
       </h1>
       <Formik
         initialValues={
-          immobilieres
+          immobiliere
             ? {
-                ...immobilieres,
+                ...immobiliere,
               }
-            : new Immobilieres()
+            : new Immobiliere()
         }
         validate={() => {
           const errors = {};
@@ -95,7 +94,7 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
                   isValid: true,
                   msg: `Element ${isCreation ? "created" : "updated"}.`,
                 });
-                router.push("/immobilieress");
+                router.push("/immobilieres");
               },
               onError: (error) => {
                 setStatus({
@@ -127,13 +126,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_dateMutations"
+                htmlFor="immobiliere_dateMutations"
               >
                 dateMutations
               </label>
               <input
                 name="dateMutations"
-                id="immobilieres_dateMutations"
+                id="immobiliere_dateMutations"
                 value={values.dateMutations?.toLocaleString() ?? ""}
                 type="dateTime"
                 placeholder=""
@@ -159,13 +158,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_price"
+                htmlFor="immobiliere_price"
               >
                 price
               </label>
               <input
                 name="price"
-                id="immobilieres_price"
+                id="immobiliere_price"
                 value={values.price ?? ""}
                 type="number"
                 step="0.1"
@@ -188,13 +187,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_codeDepartment"
+                htmlFor="immobiliere_codeDepartment"
               >
                 codeDepartment
               </label>
               <input
                 name="codeDepartment"
-                id="immobilieres_codeDepartment"
+                id="immobiliere_codeDepartment"
                 value={values.codeDepartment ?? ""}
                 type="text"
                 placeholder=""
@@ -220,13 +219,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_region"
+                htmlFor="immobiliere_region"
               >
                 region
               </label>
               <input
                 name="region"
-                id="immobilieres_region"
+                id="immobiliere_region"
                 value={values.region ?? ""}
                 type="text"
                 placeholder=""
@@ -248,13 +247,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_squareMeters"
+                htmlFor="immobiliere_squareMeters"
               >
                 squareMeters
               </label>
               <input
                 name="squareMeters"
-                id="immobilieres_squareMeters"
+                id="immobiliere_squareMeters"
                 value={values.squareMeters ?? ""}
                 type="number"
                 placeholder=""
@@ -280,13 +279,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_code_type_local"
+                htmlFor="immobiliere_code_type_local"
               >
                 code_type_local
               </label>
               <input
                 name="code_type_local"
-                id="immobilieres_code_type_local"
+                id="immobiliere_code_type_local"
                 value={values.code_type_local ?? ""}
                 type="text"
                 placeholder=""
@@ -312,13 +311,13 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
             <div className="mb-2">
               <label
                 className="text-gray-700 block text-sm font-bold"
-                htmlFor="immobilieres_codeTypeLocal"
+                htmlFor="immobiliere_codeTypeLocal"
               >
                 codeTypeLocal
               </label>
               <input
                 name="codeTypeLocal"
-                id="immobilieres_codeTypeLocal"
+                id="immobiliere_codeTypeLocal"
                 value={values.codeTypeLocal ?? ""}
                 type="text"
                 placeholder=""
@@ -364,7 +363,7 @@ export const Form: FunctionComponent<Props> = ({ immobilieres }) => {
         )}
       </Formik>
       <div className="flex space-x-2 mt-4 justify-end">
-        {immobilieres && (
+        {immobiliere && (
           <button
             className="inline-block mt-2 border-2 border-red-400 hover:border-red-700 hover:text-red-700 text-sm text-red-400 font-bold py-2 px-4 rounded"
             onClick={handleDelete}
