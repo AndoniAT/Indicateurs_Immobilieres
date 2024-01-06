@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
 
 #[ApiResource(
     mercure: true,
+    /*
     operations: [
         new GetCollection(paginationEnabled: false)
 	],
@@ -27,7 +28,7 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
             read: false,
             paginationEnabled: false
         )
-        ],
+        ],*/
 )]
 #[ORM\Entity]
 class Immobiliere
