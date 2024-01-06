@@ -19,10 +19,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Resolvers/'
+            - '../src/State/'
     
-    App\Resolver\ImmoCollectionResolver:
+    App\Resolvers\ImmoCollectionResolver:
         tags:
             - { name: api_platform.graphql.query_resolver }
-
+    
+    App\Resolvers\ImmoResolver:
+       tags:
+            - { name: api_platform.graphql.query_resolver }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

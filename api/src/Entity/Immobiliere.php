@@ -6,11 +6,31 @@
 
 namespace App\Entity;
 
+//use ApiPlatform\Core\Annotation\ApiResource;
+//use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Resolvers\ImmoCollectionResolver;
+use App\Resolvers\ImmoResolver;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 
-#[ApiResource(mercure: true)]
+
+//#[ApiResource(operations: [])]
+
+#[ApiResource(
+    mercure: true,
+    operations: [
+		new GetCollection()
+	],
+    graphQlOperations: [
+        new QueryCollection(
+            resolver: ImmoCollectionResolver::class,
+            read: false,
+        )
+    ], 
+)]
 #[ORM\Entity]
 class Immobiliere
 {
