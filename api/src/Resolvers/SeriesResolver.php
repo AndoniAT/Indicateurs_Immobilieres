@@ -2,17 +2,15 @@
 
 namespace App\Resolvers;
 
-//use ApiPlatform\Core\GraphQl\Resolver\QueryCollectionResolverInterface;
 use ApiPlatform\GraphQl\Resolver\QueryCollectionResolverInterface;
 
 use App\Entity\Immobiliere;
+use App\Entity\SeriesGraph;
 use Doctrine\Persistence\ManagerRegistry;
-// src/Resolvers/ImmoCollectionResolver.php
-
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class ImmoCollectionResolver
+class SeriesResolver
 {
     private $entityManager;
 
@@ -21,11 +19,17 @@ class ImmoCollectionResolver
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(): iterable
+    public function __invoke(): array
     {
         $repository = $this->entityManager->getRepository(Immobiliere::class);
         $entities = $repository->findAll();
-        $entities = $repository->findBy([], null, 100);  // Limite à 100 a cause de surcharge de memoire
-        return $entities;
+        $entities = $repository->findBy([], null, 100);
+        $series = array();
+        foreach ($entities as $immo) {
+            $s = new SeriesGraph($immo->getId(), $immo->getDateMutations(), $immo->getPrice(), $immo->getSquareMeters());
+            array_push($series, $s);
+        }
+
+        return $series;
     }
 }

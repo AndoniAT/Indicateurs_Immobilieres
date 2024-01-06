@@ -16,9 +16,6 @@ use App\Resolvers\ImmoResolver;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 
-
-//#[ApiResource(operations: [])]
-
 #[ApiResource(
     mercure: true,
     operations: [
@@ -29,7 +26,7 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
             resolver: ImmoCollectionResolver::class,
             read: false,
             paginationEnabled: false
-            )
+        )
         ],
 )]
 #[ORM\Entity]

@@ -26,6 +26,10 @@ services:
         tags:
             - { name: api_platform.graphql.query_resolver }
     
+    App\Resolvers\SeriesResolver:
+        tags:
+            - { name: api_platform.graphql.query_resolver }
+    
     App\Resolvers\ImmoResolver:
        tags:
             - { name: api_platform.graphql.query_resolver }
