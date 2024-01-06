@@ -26,6 +26,32 @@ class ImmoRepository extends ServiceEntityRepository {
 
 		return $result;
 	}
+
+
+    public function getVentesRegion(){
+        
+        // select region, SUM(price) as totalVentes
+        // from immobiliere
+        // group by (region);
+        //$query = "SELECT region, SUM(price) AS  totalVentes FROM immobiliere GROUP BY (region)";
+        $query =  "SELECT
+            region,
+            EXTRACT(YEAR FROM date_mutations) as annee,
+            COUNT(*) as totalVente
+            FROM
+                immobiliere
+            WHERE
+                nature_mutation = 'Vente'
+            GROUP BY
+                region, EXTRACT(YEAR FROM date_mutations)
+            ORDER BY
+                EXTRACT(YEAR FROM date_mutations) ASC";
+        $result = $this->connection->prepare($query)->executeQuery();
+        $result = $result->fetchAllAssociative();
+
+        return $result;
+
+    }
 }
 
 
