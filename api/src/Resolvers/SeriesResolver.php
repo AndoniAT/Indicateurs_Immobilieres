@@ -5,8 +5,8 @@ namespace App\Resolvers;
 use ApiPlatform\GraphQl\Resolver\QueryCollectionResolverInterface;
 
 use App\Entity\Immobiliere;
-use App\Entity\SeriesGraph;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\SeriesGraph;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -19,17 +19,27 @@ class SeriesResolver
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(): array
+    /**
+	 * @param iterable<SeriesGraph> $collection
+	 *
+	 * @return iterable<SeriesGraph>
+	 */
+    public function __invoke(iterable $collection, array $context): iterable
     {
-        $repository = $this->entityManager->getRepository(Immobiliere::class);
-        $entities = $repository->findAll();
-        $entities = $repository->findBy([], null, 100);
-        $series = array();
-        foreach ($entities as $immo) {
-            $s = new SeriesGraph($immo->getId(), $immo->getDateMutations(), $immo->getPrice(), $immo->getSquareMeters());
-            array_push($series, $s);
-        }
+        $res = $this->entityManager->getRepository(Immobiliere::class)->getSeriesG();
 
-        return $series;
+        $items = [];
+        $count = 0;
+        foreach ($res as $itemCollection) {
+            $item = new SeriesGraph();
+            $item->setId($count);
+            $date = new \DateTime( $itemCollection['datemutations'] );
+            $item->setDateMutations($date);
+
+            $item->setPrice($itemCollection['price']);
+            array_push($items, $item);
+            $count++;
+        }
+        return $items;
     }
 }

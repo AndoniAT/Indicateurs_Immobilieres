@@ -15,6 +15,7 @@ use App\Resolvers\ImmoCollectionResolver;
 use App\Resolvers\ImmoResolver;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use App\Repository\ImmoRepository;
 
 #[ApiResource(
     mercure: true,
@@ -30,7 +31,7 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
         )
         ],*/
 )]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: ImmoRepository::class)]
 class Immobiliere
 {
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
