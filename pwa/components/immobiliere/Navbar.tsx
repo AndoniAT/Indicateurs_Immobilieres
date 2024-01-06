@@ -27,7 +27,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          <Link href="/immobilieres" passHref>
+          <Link href="/immobilieres/diagramme_circulaire" passHref>
             <span className="cursor-pointer text-white font-bold text-lg hover:text-cyan-300 transition duration-300 ease-in-out">
             Ventes par Région
             </span>
