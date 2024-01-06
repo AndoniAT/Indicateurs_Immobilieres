@@ -22,14 +22,15 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
 #[ApiResource(
     mercure: true,
     operations: [
-		new GetCollection()
+        new GetCollection(paginationEnabled: false)
 	],
     graphQlOperations: [
         new QueryCollection(
             resolver: ImmoCollectionResolver::class,
             read: false,
-        )
-    ], 
+            paginationEnabled: false
+            )
+        ],
 )]
 #[ORM\Entity]
 class Immobiliere

@@ -2,28 +2,30 @@
 
 namespace App\Resolvers;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryCollectionResolverInterface;
+//use ApiPlatform\Core\GraphQl\Resolver\QueryCollectionResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryCollectionResolverInterface;
+
 use App\Entity\Immobiliere;
 use Doctrine\Persistence\ManagerRegistry;
+// src/Resolvers/ImmoCollectionResolver.php
 
-final class ImmoCollectionResolver implements QueryCollectionResolverInterface
+
+use Doctrine\ORM\EntityManagerInterface;
+
+class ImmoCollectionResolver
 {
-    public function __construct(private ManagerRegistry $registry) {}
+    private $entityManager;
 
-    /**
-     * @param iterable<Immobiliere> $collection
-     *
-     * @return iterable<Immobiliere>
-     */
-    public function __invoke(iterable $collection, array $context): iterable
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        // Query arguments are in $context['args'].
+        $this->entityManager = $entityManager;
+    }
 
-        /*foreach ($collection as $immo) {
-            // Do something with the book.
-        }
-
-        return $collection;*/
-        return $this->registry->getRepository(Immobiliere::class);
+    public function __invoke(): iterable // ou Traversable si vous préférez
+    {
+        $repository = $this->entityManager->getRepository(Immobiliere::class);
+        $entities = $repository->findAll();
+        $entities = $repository->findBy([], null, 100);  // Limite à 100 a cause de surcharge de memoire
+        return $entities;
     }
 }
