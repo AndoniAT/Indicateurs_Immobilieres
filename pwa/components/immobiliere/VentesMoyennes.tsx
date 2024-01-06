@@ -1,78 +1,81 @@
 import { FunctionComponent } from "react";
 import { Immobiliere } from "../../types/Immobiliere";
 import * as d3 from "d3";
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface Props {
-  immobilieres: Immobiliere[];
+  immobilieres: SeriesGraph[];
 }
 
-interface IData {
-    date: string;
-    value: number;
-}
+const Graph: React.FC<Props> = ({immobilieres}) => {
+  const d3Container = useRef<SVGSVGElement | null>(null);
 
-
-const Graph: React.FC = () => {
-    
-    const d3Container = useRef<SVGSVGElement | null>(null);
-  
-    // test avec des données brutes
-    const data: IData[] = [
-      { date: '2015-01', value: 2 },
-      { date: '2016-01', value: 2.5 },
-      { date: '2017-01', value: 3 },
-      { date: '2018-01', value: 3.5 },
-      { date: '2019-01', value: 4 },
-      { date: '2020-01', value: 4.5 },
-      { date: '2022-01', value: 4.0 }
-    ];
-  
-    useEffect(() => {
-      if (d3Container.current) {
-      
+  //immobilieres = exemple;
+  let draw = () => {
+    if (d3Container.current && immobilieres.length > 0) {
       const svg = d3.select(d3Container.current);
-        //les dimensions et les marges de votre graphique
-        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-        const width = 800 - margin.left - margin.right;
-        const height = 400 - margin.top - margin.bottom;
+      // Les dimensions et les marges de votre graphique
+      const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+      const width = 800 - margin.left - margin.right;
+      const height = 400 - margin.top - margin.bottom;
   
-        // nettoyer le contenu SVG précédent
-        svg.selectAll("*").remove();
+      // Nettoyage du contenu SVG précédent
+      svg.selectAll("*").remove();
   
-        // créer un nouveau groupe SVG avec les marges appropriées
-        const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+      const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
   
-        // définire vos échelles et axes ici
-        const x = d3.scaleTime()
-          .domain(d3.extent(data, d => new Date(d.date)))
-          .range([0, width]);
+      // Définition échelles et axes ici
+        const x = d3
+        .scaleTime()
+        .domain(d3.extent(immobilieres, (d) => new Date(d.dateMutations)) as [Date, Date])
+        .range([10, width]); // Ajoutez une marge à gauche
+      
+      const xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")); // Utilisez %Y pour l'année
+      
+      // Sélection uniquement des années distinctes
+      const uniqueYears = Array.from(new Set(immobilieres.map((d) => new Date(d.dateMutations).getFullYear())));
+      xAxis.tickValues(uniqueYears.map((year) => new Date(`${year}-01-01`))); // Première journée de chaque année pour afficher le mois
+      xAxis.ticks(100);
+      g.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(xAxis)
+        .selectAll("text")
+        .style("font-size", "8px")
+        .style("fill", "black");
+      
   
-        const y = d3.scaleLinear()
-          .domain([0, d3.max(data, d => d.value)])
-          .range([height, 0]);
+      const y = d3.scaleLinear().domain([0, d3.max(immobilieres, (d) => d.price) || 0]).range([height, 0]);
   
-        g.append("g")
-          .attr("transform", `translate(0,${height})`)
-          .call(d3.axisBottom(x));
+      g.append("g").call(d3.axisLeft(y)).selectAll("text")
+      .style("font-size", "6px");
   
-        g.append("g")
-          .call(d3.axisLeft(y));
+      // Ligne pour la série temporelle
+      const line = d3
+        .line<SeriesGraph>()
+        .x((d) => x(new Date(d.dateMutations)))
+        .y((d) => y(d.price));
   
-        // dessiner la ligne pour la série temporelle
-        const line = d3.line<IData>()
-          .x(d => x(new Date(d.date)))
-          .y(d => y(d.value));
+      g.append("path")
+        .datum(immobilieres)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", line);
+
+        g.selectAll("circle")
+      .data(immobilieres)
+      .enter()
+      .append("circle")
+      .attr("cx", (d) => x(new Date(d.dateMutations)))
+      .attr("cy", (d) => y(d.price))
+      .attr("r", 2);
+    }
+  };
   
-        g.append("path")
-          .datum(data)
-          .attr("fill", "none")
-          .attr("stroke", "steelblue")
-          .attr("stroke-width", 1.5)
-          .attr("d", line);
-      }
-    }, []);
+  draw();
   
+
+  draw(); 
 
   return (
     <div className="flex justify-center">
@@ -89,9 +92,9 @@ const Graph: React.FC = () => {
 export const VentesMoyennes: FunctionComponent<Props> = ({ immobilieres }) => {
 
   return (
-    <div className="p-4">
+    <div className="p-4" id="graphContainer">
         <h1 className="text-3xl text-center mb-4">Évolution du prix moyen du m²</h1>
-        <Graph />
+        <Graph immobilieres={immobilieres}/>
         <div className="text-center mt-4">
             <p>Les données représentent l'évolution du prix moyen du mètre carré pour les appartements et maisons en France sur 5 ans.</p>
         </div>
