@@ -55,6 +55,9 @@ class Immobiliere
     #[ORM\Column(type: 'string')]
     private string $code_type_local;
 
+    #[ORM\Column(type: 'string')]
+    private string $nature_mutation;
+
     public function __construct( ) {
         $this->dateMutations = new \DateTime();
         $this->code_type_local = 'unknown';
@@ -138,6 +141,19 @@ class Immobiliere
 
         return $this;
     }
+     //nature_mutation;
+     public function getNatureMutation(): ?string
+     {
+         return $this->nature_mutation;
+     }
+ 
+     public function setNatureMutation(string $nature_mutation): self
+     {
+         $this->nature_mutation = $nature_mutation;
+ 
+         return $this;
+     }
+
 
     public function toString(): string
     {
@@ -147,7 +163,8 @@ class Immobiliere
         'Departement : ' . $this->getCodeDepartment() . PHP_EOL .
         'Region : ' . $this->getRegion() . PHP_EOL .
         'Mettre carrés : ' . $this->getSquareMeters() . PHP_EOL .
-        'Type local : ' . $this->getCodeTypeLocal() . PHP_EOL;
+        'Type local : ' . $this->getCodeTypeLocal() . PHP_EOL . 
+        'Nature Mutation : ' . $this->getNatureMutation() . PHP_EOL;
     }
 
 
