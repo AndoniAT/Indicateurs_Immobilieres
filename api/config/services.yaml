@@ -37,5 +37,9 @@ services:
     App\Resolvers\VentesRegionResolver:
        tags:
             - { name: api_platform.graphql.query_resolver }
+
+    App\Resolvers\MutationsPeriodeResolver:
+       tags:
+            - { name: api_platform.graphql.query_resolver }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
