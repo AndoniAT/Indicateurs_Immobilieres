@@ -3,7 +3,7 @@ import React, { useRef, useEffect, FunctionComponent } from 'react';
 import * as d3 from 'd3';
 
 interface BarChartProps {
-  data: { date: string; sales: number }[];
+  data: { date: string; totalVente: number }[];
   periode: string;
 }
 
@@ -38,12 +38,12 @@ export const BarChart: FunctionComponent<BarChartProps> = ({ data, periode }) =>
             periode === "mois"
               ? d.date.substring(0, 7)
               : d.date.substring(0, 4);
-          acc[periodKey] = (acc[periodKey] || 0) + d.sales;
+          acc[periodKey] = (acc[periodKey] || 0) + d.totalVente;
           return acc;
         }, {});
 
         aggregatedData = Object.entries(salesByPeriod).map(
-          ([period, sales]) => ({ date: period, sales })
+          ([period, totalVente]) => ({ date: period, totalVente })
         );
       }
 
@@ -70,7 +70,7 @@ export const BarChart: FunctionComponent<BarChartProps> = ({ data, periode }) =>
 
       const y = d3
         .scaleLinear()
-        .domain([0, d3.max(aggregatedData, (d) => d.sales)])
+        .domain([0, d3.max(aggregatedData, (d) => d.totalVente)])
         .range([height, 0]);
 
       svg.append("g").call(d3.axisLeft(y));
@@ -163,8 +163,8 @@ export const BarChart: FunctionComponent<BarChartProps> = ({ data, periode }) =>
         .attr("fill", "#a9fcf8")
         .transition()
         .duration(1000)
-        .attr("y", (d) => y(d.sales))
-        .attr("height", (d) => height - y(d.sales))
+        .attr("y", (d) => y(d.totalVente))
+        .attr("height", (d) => height - y(d.totalVente))
         .on("start", function (event, d) {
           tooltip2.style("visibility", "hidden");
         })
@@ -181,7 +181,7 @@ export const BarChart: FunctionComponent<BarChartProps> = ({ data, periode }) =>
               }
               tooltip2
                 .style("visibility", "visible")
-                .html(`<span style='font-size: 30px;'>Vente par date :</span><h2>Date: ${displayDate}<br/>Ventes: ${d.sales}</h2><img src=${tooltipImage} width=200></img>`);
+                .html(`<span style='font-size: 30px;'>Vente par date :</span><h2>Date: ${displayDate}<br/>Ventes: ${d.totalVente}</h2><img src=${tooltipImage} width=200></img>`);
               d3.select(this)
                 .transition()
                 .duration(1000)

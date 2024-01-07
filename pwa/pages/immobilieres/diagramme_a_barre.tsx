@@ -1,40 +1,34 @@
-// Page.tsx
-
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Head from "next/head";
 import { BarChart } from "../../components/immobiliere/Diagramme_a_barre";
 import Navbar from "../../components/immobiliere/Navbar";
+import { getMutationsPeriodesInformation } from "../../components/ServiceApi"; // Update the path
 
 const Page = () => {
   const [periode, setPeriode] = useState("mois");
-  const [dateDebut, setDateDebut] = useState("2018-03-04");
-  const [dateFin, setDateFin] = useState("");
+  const [dateDebut, setDateDebut] = useState("2019-01-01");
+  const [dateFin, setDateFin] = useState("2021-12-31");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const data = [
-    { date: "2017-01-01", sales: 20 },
-    { date: "2017-01-02", sales: 30 },
-    { date: "2017-01-03", sales: 60 },
-    { date: "2017-01-04", sales: 10 },
-    { date: "2017-01-20", sales: 110 },
-    { date: "2017-02-01", sales: 30 },
-    { date: "2017-03-01", sales: 40 },
-    { date: "2017-04-01", sales: 60 },
-    { date: "2017-05-01", sales: 80 },
-    { date: "2017-06-01", sales: 100 },
-    { date: "2017-07-01", sales: 200 },
-    { date: "2017-08-01", sales: 50 },
-    { date: "2017-09-01", sales: 100 },
-    { date: "2017-10-01", sales: 200 },
-    { date: "2017-11-01", sales: 100 },
-    { date: "2017-12-01", sales: 180 },
-    { date: "2018-01-01", sales: 120 },
-    { date: "2018-02-01", sales: 40 },
-    { date: "2018-02-02", sales: 40 },
-    { date: "2018-03-08", sales: 100 },
-    { date: "2018-03-04", sales: 230 },
-    { date: "2018-04-04", sales: 230 },
-
-  ];
+  useEffect(() => {
+    setLoading(true);
+    getMutationsPeriodesInformation(dateDebut, dateFin)
+      .then(response => {
+        console.log(response)
+        const formattedData = response.data.mutationsPeriodes.map(item => ({
+          date: item.date, // You might want to format the date
+          totalVente: parseInt(item.totalVente),
+        }));
+        setData(formattedData);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err);
+        setLoading(false);
+      });
+  }, [dateDebut, dateFin]); // Refetch data when dateDebut or dateFin changes
 
   const filteredData = useMemo(() => {
     return data.filter((d) => {
@@ -46,6 +40,10 @@ const Page = () => {
       return date >= debut && date <= fin;
     });
   }, [data, dateDebut, dateFin]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
 
   return (
     <div>

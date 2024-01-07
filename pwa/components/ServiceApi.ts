@@ -1,14 +1,13 @@
-async function graphQlCall<T>(query: string) {
+async function graphQlCall<T>(query: string, variables?: { [key: string]: any }) {
     return fetch('/graphql', {
         method: 'POST',
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, variables }), // Include variables here
         headers: {
             accept: 'application/json',
             'content-type': 'application/json',
         }
-    }).then(response => response.json() ).then( data => data )
+    }).then(response => response.json()).then(data => data)
 }
-
 
 /**
  * Obtian all the informations for the graph
@@ -21,7 +20,7 @@ export async function getSeriesGraphInformation() {
             price
                     }
                 }`;
-    let response = graphQlCall<{ seriesGraph: SeriesGraph[] }>( query ).then( data => data );
+    let response = graphQlCall<{ seriesGraph: SeriesGraph[] }>(query).then(data => data);
     return response;
 }
 
@@ -47,8 +46,27 @@ export async function getVentesRegionsInformation() {
           anne
         }
       }`;
-    let response = graphQlCall<{ ventesRegions: VentesRegions[] }>( query ).then( data => data );
+    let response = graphQlCall<{ ventesRegions: VentesRegions[] }>(query).then(data => data);
     return response;
 }
 
 
+
+export async function getMutationsPeriodesInformation(start, end) {
+    let query = `query GetMutationsPeriodes($start: String!, $end: String!) {
+        mutationsPeriodes(start: $start, end: $end) {
+            totalVente
+            date
+        }
+    }`;
+
+    // Prepare the variables object
+    let variables = {
+        start: start,
+        end: end
+    };
+
+    // Make the GraphQL call with the query and variables
+    let response = graphQlCall<{ mutationsPeriodes: Diagramme[] }>(query, variables).then(data => data);
+    return response;
+}
