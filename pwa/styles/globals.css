@@ -26,3 +26,20 @@
         transform-origin: bottom left;
   }
 }
+.legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .legend-item div {
+    margin-right: 5px;
+  }
+
+  
