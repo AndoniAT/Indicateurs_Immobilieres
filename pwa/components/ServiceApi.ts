@@ -25,3 +25,30 @@ export async function getSeriesGraphInformation() {
     return response;
 }
 
+
+
+// {
+//     ventesRegions {
+//       totalVente
+//       region,
+//       anne
+//     }
+//   }
+
+/**
+ * Obtian all the informations for the graph
+ * @returns 
+ */
+export async function getVentesRegionsInformation() {
+    let query = `{
+        ventesRegions {
+          totalVente
+          region,
+          anne
+        }
+      }`;
+    let response = graphQlCall<{ ventesRegions: VentesRegions[] }>( query ).then( data => data );
+    return response;
+}
+
+

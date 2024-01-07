@@ -1,20 +1,13 @@
 import { FunctionComponent, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-interface Props {}
+interface Props {
+  ventes: VentesRegions[];
+}
 
-export const DiagrammeCirculaire: FunctionComponent<Props> = () => {
+export const DiagrammeCirculaire: FunctionComponent<Props> = ({ventes}) => {
   const chartRef = useRef<SVGSVGElement | null>(null);
 
-  // Déclaration des données statiques
-  const immobilieress = [
-    { region: "Auvergne-Rhône-Alpes", ventes: 1600 },
-    { region: "Bourgogne-Franche-Comté", ventes: 400 },
-    { region: "Bretagne", ventes: 900 },
-    { region: "Île-de-France", ventes: 4200 },
-    { region: "Normandie", ventes: 2100 },
-    { region: "Nouvelle-Aquitaine", ventes: 700 },
-  ];
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -22,11 +15,11 @@ export const DiagrammeCirculaire: FunctionComponent<Props> = () => {
     // Nettoyer le contenu de l'élément avant d'ajouter le nouveau diagramme
     d3.select(chartRef.current).selectAll("*").remove();
 
-    const data = immobilieress.map((item) => item.ventes);
+    const data = ventes.map((item) => item.totalVente);
     const totalSales = data.reduce((acc, value) => acc + value, 0);
 
-    const width = 500;
-    const height = 500;
+    const width = 800;
+    const height = 800;
     const radius = Math.min(width, height) / 2;
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
@@ -57,17 +50,16 @@ export const DiagrammeCirculaire: FunctionComponent<Props> = () => {
         .data(data_ready)
         .enter()
         .append("text")
-        .text((d: any) => `${((d.data / totalSales) * 100).toFixed(2)}%`)
+        .text((d, i) => `${ventes[i].region} (${((d.data / totalSales) * 100).toFixed(2)}%)`)
         .attr("transform", (d: any) => `translate(${d3.arc().innerRadius(0).outerRadius(radius).centroid(d)})`)
         .style("text-anchor", "middle");
     }
 
-  }, [immobilieress]);
+  }, [ventes]);
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl text-center mb-4">Diagramme Circulaire</h1>
-      <div className="flex justify-center items-center" style={{ height: "100vh" }}>
+    <div className="p-4" style={{marginTop: '50px'}}>
+      <div className="flex justify-center items-center" style={{ height: "70vh" }}>
         <div ref={chartRef}></div>
       </div>
     </div>
