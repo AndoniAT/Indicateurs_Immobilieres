@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Head from "next/head";
 import { BarChart } from "../../components/immobiliere/Diagramme_a_barre";
 import Navbar from "../../components/immobiliere/Navbar";
-import { getMutationsPeriodesInformation } from "../../components/ServiceApi"; // Update the path
+import { getMutationsPeriodesInformation } from "../../components/ServiceApi"; 
 
 const Page = () => {
   const [periode, setPeriode] = useState("mois");
@@ -18,7 +18,7 @@ const Page = () => {
       .then(response => {
         console.log(response)
         const formattedData = response.data.mutationsPeriodes.map(item => ({
-          date: item.date, // You might want to format the date
+          date: item.date,
           totalVente: parseInt(item.totalVente),
         }));
         setData(formattedData);
@@ -28,7 +28,7 @@ const Page = () => {
         setError(err);
         setLoading(false);
       });
-  }, [dateDebut, dateFin]); // Refetch data when dateDebut or dateFin changes
+  }, [dateDebut, dateFin]);
 
   const filteredData = useMemo(() => {
     return data.filter((d) => {
