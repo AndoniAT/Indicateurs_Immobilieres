@@ -26,7 +26,7 @@
                 $lines = explode(PHP_EOL, $fileContent);
                 
                 //$max = count($lines);
-                $max = 1000;
+                $max = 15000;
                 $min = 0;
                 $currentIndex = count($lines) - 2;
                 $countProgress = 0;
@@ -45,7 +45,7 @@
                     $save = ( $dateTimeObject instanceof \DateTime );
                     
                     $price = (float)$data[10];
-                    $save &= is_float($price);
+                    $save &= is_float($price) && $price > 0;
                     
                     $meters = (int)$data[42];
                     $save &= is_int($meters) && $meters > 0;
@@ -85,6 +85,8 @@
                     }                    
                     $currentIndex--;
                 }
+                $manager->flush();
+                $manager->clear();
                 echo('Finished  => ' . $countProgress . ' / ' . $max);
             }
 
