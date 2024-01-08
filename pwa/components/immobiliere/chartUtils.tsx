@@ -115,13 +115,70 @@ export function updateBars(svg, x, y, data, periode, tooltip) {
   
   
 
-export function drawAxes(svg, x, y, width, height, xAxis) {
-    svg.append("g").call(d3.axisLeft(y));
+  export function drawAxes(svg, x, y, width, height, xAxis) {
+    // Axe des Y
     svg.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(xAxis)
-      .selectAll("text")
-      .attr("transform", "rotate(-45)")
-      .style("text-anchor", "end");
-  }
+        .call(d3.axisLeft(y));
+
+    // Axe des X
+    const xAxisGroup = svg.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(xAxis);
+
+    xAxisGroup.selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end");
+
+    // Ajout des flèches sur l'axe des X
+    xAxisGroup.append("line")
+        .attr("x1", width)
+        .attr("x2", width + 10)
+        .attr("y1", 0)
+        .attr("y2", 0)
+        .attr("stroke", "black")
+        .attr("marker-end", "url(#arrow-x)");
+
+    svg.append("defs").append("marker")
+        .attr("id", "arrow-x")
+        .attr("viewBox", "-10 -5 20 20")
+        .attr("refX", 10)
+        .attr("refY", 0)
+        .attr("markerWidth", 20)
+        .attr("markerHeight", 20)
+        .attr("orient", "auto")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("class", "arrow-head");
+
+    // Ajout des flèches sur l'axe des Y
+    svg.append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", 0)
+        .attr("y2", -10)
+        .attr("stroke", "black")
+        .attr("marker-end", "url(#arrow-y)");
+
+    svg.append("defs").append("marker")
+        .attr("id", "arrow-y")
+        .attr("viewBox", "-10 -5 15 15")
+        .attr("refX", 0)
+        .attr("refY", 0)
+        .attr("markerWidth", 20)
+        .attr("markerHeight", 20)
+        .attr("orient", "auto")
+        .append("path")
+        .attr("d", "M0,-5L5,0L0,5")
+        .attr("class", "arrow-head");
+
+    // Ajout de l'étiquette sur l'axe des Y
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0-60)
+        .attr("x", 0 - height / 2)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Nombre de Ventes"); // Changez ce texte pour correspondre à votre étiquette souhaitée
+}
+
   
