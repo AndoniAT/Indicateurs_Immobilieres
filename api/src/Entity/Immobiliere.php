@@ -87,12 +87,14 @@ class Immobiliere
         return $this->price;
     }
 
-    public function setPrice(float $price): self
-    {
+    public function setPrice(float $price): self {
+        if ($price < 0) {
+            throw new \InvalidArgumentException('Price cannot be negative.');
+        }
         $this->price = $price;
-
         return $this;
     }
+    
 
     public function getCodeDepartment(): string
     {
