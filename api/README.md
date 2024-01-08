@@ -21,3 +21,28 @@ Si vous rencontrez un probleme pour lire un fichier très lourd dans le conteneu
 vous pouvez rentrer dans le conteneur, aller dans la config php et configurer la taille de la mémoire souhaitez
     cd /usr/local/etc/php
     echo 'memory_limit = 6000M' >> php.ini
+
+    ---
+
+## Exécution des Tests
+
+Créer une base de données de test :
+```shell
+docker compose exec php bin/console doctrine:database:create --env=test
+```
+
+Migration :
+```shell
+ docker compose exec php bin/console doctrine:schema:create --env=test
+ docker compose exec php bin/console doctrine:migrations:migrate --env=test
+```
+
+Exécuter les tests :
+```Shell
+compose exec php bin/phpunit tests/Api/
+```
+
+Supprimer la base de données de test :
+```shell
+docker compose exec php bin/console doctrine:database:drop --force --env=test
+```
