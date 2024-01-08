@@ -12,7 +12,6 @@ export const DiagrammeCirculaire: FunctionComponent<Props> = ({ventes}) => {
   useEffect(() => {
     if (!chartRef.current) return;
 
-    // Nettoyer le contenu de l'élément avant d'ajouter le nouveau diagramme
     d3.select(chartRef.current).selectAll("*").remove();
 
     const data = ventes.map((item) => item.totalVente);
