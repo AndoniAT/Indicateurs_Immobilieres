@@ -59,6 +59,58 @@ docker compose build --no-cache
 
 docker compose up --wait
 
+## Details du Projet
 
+<h4>Technologies utilisés</h4>
+<ul>
+  <li>API Platform</li>
+  <li>Symfony</li>
+  <li>Postgresql</li>
+  <li>NextJs</li>
+  <li>D3.js</li>
+</ul>
 
+Ce projet à été réalisé en équipe, pour notre cours du WEB en Master 2 IWOCS, à l'Université du Havre.
 
+Nous avons mis dans le projet back-end (dans le dossier api/), les fichiers de test des valeurs foncieres entre 2018 - 2023 en France.
+
+Pour remplir votre base de données veuillez de lire le Readme dans le projet api/ pour savoir comment faire les migrations.
+
+Une fois qu'on a lancé notre projet et remplit notre base de données on peut aller sur le site, tapez l'adress http://localhost:80
+
+![Init Projet](<./images/1.start.png>)
+
+Une fois dans cette page, vous pouvez cliquer sur le bouton client pour aller directement vers le site.
+
+![Menu](<./images/2.menu.png>)
+
+Si vous allez vers ImmobilieresList on verra la liste de tous les immobilières de notre base de données.
+
+![ImmobilieresList](<./images/3.ImmobilieresList.png>)
+
+Maintenant, allons sur les autres bouttons du menu.
+
+<h4>Ventes Moyennes</h4>
+
+La moyenne de ventes de cheque moi.
+
+![VentesMoyennes](<./images/3.VentesMoyennes.png>)
+
+<h4>Muttations par période</h4>
+
+Pour les mutations, vous pouvez choisir un interval de dates et sélectionner le moide d'affichage
+<ul>
+  <li>Par jour</li>
+  <li>Par Mois</li>
+  <li>Par Année</li>
+</ul>
+
+![Mutations](<./images/4.MutationsParPeriode.png>)
+
+<h4>Ventes par Région</h4>
+
+Et finalement on a les ventes par région répresentées apr un graphique camamber.
+
+Ici vous pouvez visualiser les différentes régions avec une couleur différent et sélectionner l'année que l'on souahite afficher.
+
+![VentesParRegion](<./images/5.VentesParRegion.png>)
