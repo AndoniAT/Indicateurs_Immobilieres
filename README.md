@@ -65,6 +65,7 @@ docker compose up --wait
 <ul>
   <li>API Platform</li>
   <li>Symfony</li>
+  <li>GraphQl</li>
   <li>Postgresql</li>
   <li>NextJs</li>
   <li>D3.js</li>
